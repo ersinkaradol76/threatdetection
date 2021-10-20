@@ -32,20 +32,20 @@ public class ComparisonResult implements Serializable {
 
 	private List<Integer> errorData1List;
 	private List<Integer> errorData2List;
-	private transient List<Transaction> repeatedData1List;
-	private transient List<Transaction> repeatedData2List;
-	private transient Map<String, Transaction> transaction1Map;
+	private transient List<Threat> repeatedData1List;
+	private transient List<Threat> repeatedData2List;
+	private transient Map<String, Threat> transaction1Map;
 	private int lineCountOfFile1;
 	private int lineTotalCountOfFile1;
-	private transient Map<String, Transaction> transaction2Map;
+	private transient Map<String, Threat> transaction2Map;
 	private int lineCountOfFile2;
 	private int lineTotalCountOfFile2;
 
-	private transient List<Transaction> perfectMatchedList;
-	private transient List<Transaction> nonMatched1List;
-	private transient List<Transaction> nonMatched2List;
-	private transient List<Transaction> candidates1List;
-	private transient List<Transaction> candidates2List;
+	private transient List<Threat> perfectMatchedList;
+	private transient List<Threat> nonMatched1List;
+	private transient List<Threat> nonMatched2List;
+	private transient List<Threat> candidates1List;
+	private transient List<Threat> candidates2List;
 
 	public List<Integer> getErrorData1List() {
 		return errorData1List;
@@ -59,59 +59,59 @@ public class ComparisonResult implements Serializable {
 	public void setErrorData2List(List<Integer> errorData2List) {
 		this.errorData2List = errorData2List;
 	}
-	public List<Transaction> getRepeatedData1List() {
+	public List<Threat> getRepeatedData1List() {
 		return repeatedData1List;
 	}
-	public void setRepeatedData1List(List<Transaction> repeatedData1List) {
+	public void setRepeatedData1List(List<Threat> repeatedData1List) {
 		this.repeatedData1List = repeatedData1List;
 	}
-	public List<Transaction> getRepeatedData2List() {
+	public List<Threat> getRepeatedData2List() {
 		return repeatedData2List;
 	}
-	public void setRepeatedData2List(List<Transaction> repeatedData2List) {
+	public void setRepeatedData2List(List<Threat> repeatedData2List) {
 		this.repeatedData2List = repeatedData2List;
 	}
 
-	public Map<String, Transaction> getTransaction1Map() {
+	public Map<String, Threat> getTransaction1Map() {
 		return transaction1Map;
 	}
-	public void setTransaction1Map(Map<String, Transaction> transaction1Map) {
+	public void setTransaction1Map(Map<String, Threat> transaction1Map) {
 		this.transaction1Map = transaction1Map;
 	}
-	public Map<String, Transaction> getTransaction2Map() {
+	public Map<String, Threat> getTransaction2Map() {
 		return transaction2Map;
 	}
-	public void setTransaction2Map(Map<String, Transaction> transaction2Map) {
+	public void setTransaction2Map(Map<String, Threat> transaction2Map) {
 		this.transaction2Map = transaction2Map;
 	}
-	public List<Transaction> getPerfectMatchedList() {
+	public List<Threat> getPerfectMatchedList() {
 		return perfectMatchedList;
 	}
-	public void setPerfectMatchedList(List<Transaction> perfectMatchedList) {
+	public void setPerfectMatchedList(List<Threat> perfectMatchedList) {
 		this.perfectMatchedList = perfectMatchedList;
 	}
-	public List<Transaction> getNonMatched1List() {
+	public List<Threat> getNonMatched1List() {
 		return nonMatched1List;
 	}
-	public void setNonMatched1List(List<Transaction> nonMatched1List) {
+	public void setNonMatched1List(List<Threat> nonMatched1List) {
 		this.nonMatched1List = nonMatched1List;
 	}
-	public List<Transaction> getNonMatched2List() {
+	public List<Threat> getNonMatched2List() {
 		return nonMatched2List;
 	}
-	public void setNonMatched2List(List<Transaction> nonMatched2List) {
+	public void setNonMatched2List(List<Threat> nonMatched2List) {
 		this.nonMatched2List = nonMatched2List;
 	}
-	public List<Transaction> getCandidates1List() {
+	public List<Threat> getCandidates1List() {
 		return candidates1List;
 	}
-	public void setCandidates1List(List<Transaction> candidates1List) {
+	public void setCandidates1List(List<Threat> candidates1List) {
 		this.candidates1List = candidates1List;
 	}
-	public List<Transaction> getCandidates2List() {
+	public List<Threat> getCandidates2List() {
 		return candidates2List;
 	}
-	public void setCandidates2List(List<Transaction> candidates2List) {
+	public void setCandidates2List(List<Threat> candidates2List) {
 		this.candidates2List = candidates2List;
 	}
 

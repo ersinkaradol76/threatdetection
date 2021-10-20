@@ -3,7 +3,7 @@ package com.threatdetection.service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.threatdetection.model.Transaction;
+import com.threatdetection.model.Threat;
 
 public class TransactionServiceTestFixtures {
 
@@ -19,17 +19,17 @@ public class TransactionServiceTestFixtures {
 
 	static LocalDateTime now = LocalDateTime.now();
 
-	public static Transaction transaction1 = new Transaction("profile", now, new BigDecimal(100), "Narrative A",
+	public static Threat transaction1 = new Threat("profile", now, new BigDecimal(100), "Narrative A",
 			"DEDUCT",
 			"0584011808649511", 0, "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5", 127);
-	public static Transaction transaction2 = new Transaction("profile", now, new BigDecimal(100), "Narrative B",
+	public static Threat transaction2 = new Threat("profile", now, new BigDecimal(100), "Narrative B",
 			"DEDUCT",
 			"0584011808649511", 0, "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5", 236);
 
-	public static Transaction transaction3 = new Transaction("profile", now, new BigDecimal(100), "Narrative C",
+	public static Threat transaction3 = new Threat("profile", now, new BigDecimal(100), "Narrative C",
 			"DEDUCT", "0584011808649510", 0, "P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzA5", 236);
 
-	public static Transaction transaction4 = new Transaction("profile", now, new BigDecimal(100),
+	public static Threat transaction4 = new Threat("profile", now, new BigDecimal(100),
 			"**+546545    narrative 5435345 A ,.", "DEDUCT", "0584011808649510", 0,
 			"P_NzI2ODY2ODlfMTM4MjcwMTU2NS45MzB7", 236);
 

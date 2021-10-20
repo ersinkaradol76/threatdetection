@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.threatdetection.model.ComparisonResult;
-import com.threatdetection.model.Transaction;
-import com.threatdetection.service.TransactionService;
+import com.threatdetection.model.Threat;
+import com.threatdetection.service.ThreatService;
 import com.threatdetection.util.FileUtil;
 
 @Controller
@@ -28,9 +28,9 @@ public class UploadController {
 
 	private static final String REDIRECT_TO_BASE = "redirect:/";
 
-	TransactionService transactionService;
+	ThreatService transactionService;
 
-	public UploadController(TransactionService transactionService) {
+	public UploadController(ThreatService transactionService) {
 		this.transactionService = transactionService;
 	}
 
@@ -109,14 +109,14 @@ public class UploadController {
 	public String unmatched(HttpSession session, Model model) {
 		ComparisonResult comparisonResult = (ComparisonResult) session.getAttribute("comparisonResult");
 
-		List<Transaction> nonmatcheds1 = comparisonResult.getNonMatched1List();
-		List<Transaction> nonmatcheds2 = comparisonResult.getNonMatched2List();
-		List<Transaction> candidates1 = comparisonResult.getCandidates1List();
-		List<Transaction> candidates2 = comparisonResult.getCandidates2List();
+		List<Threat> nonmatcheds1 = comparisonResult.getNonMatched1List();
+		List<Threat> nonmatcheds2 = comparisonResult.getNonMatched2List();
+		List<Threat> candidates1 = comparisonResult.getCandidates1List();
+		List<Threat> candidates2 = comparisonResult.getCandidates2List();
 		List<Integer> errors1 = comparisonResult.getErrorData1List();
 		List<Integer> errors2 = comparisonResult.getErrorData2List();
-		List<Transaction> repeats1 = comparisonResult.getRepeatedData1List();
-		List<Transaction> repeats2 = comparisonResult.getRepeatedData2List();
+		List<Threat> repeats1 = comparisonResult.getRepeatedData1List();
+		List<Threat> repeats2 = comparisonResult.getRepeatedData2List();
 
 		model.addAttribute("nonmatcheds1", nonmatcheds1);
 		model.addAttribute("nonmatcheds2", nonmatcheds2);

@@ -16,14 +16,14 @@ import org.mockito.MockitoAnnotations;
 
 import com.threatdetection.exceptions.DataDoesNotSuitSpecsException;
 import com.threatdetection.model.ComparisonResult;
-import com.threatdetection.model.Transaction;
-import com.threatdetection.service.TransactionService;
+import com.threatdetection.model.Threat;
+import com.threatdetection.service.ThreatService;
 
 
 public class TransactionServiceTest {
 
 	@InjectMocks
-	TransactionService transactionService;
+	ThreatService transactionService;
 
 	@Before
 	public void init() {
@@ -33,7 +33,7 @@ public class TransactionServiceTest {
 	@Test
 	public void withValidFieldsCreateTransactionExpectNotNull() throws DataDoesNotSuitSpecsException {
 
-		Transaction transaction = transactionService.createTransaction(TransactionServiceTestFixtures.fieldsValid,
+		Threat transaction = transactionService.createTransaction(TransactionServiceTestFixtures.fieldsValid,
 				TransactionServiceTestFixtures.lineNumber);
 		assertNotNull(transaction);
 
@@ -42,7 +42,7 @@ public class TransactionServiceTest {
 	@Test
 	public void withInvalidDateFieldCanNotCreateTransactionExpectNull() {
 
-		Transaction transaction = null;
+		Threat transaction = null;
 		try {
 			transaction = transactionService.createTransaction(TransactionServiceTestFixtures.fieldsInvalid, TransactionServiceTestFixtures.lineNumber);
 		} catch (DataDoesNotSuitSpecsException e) {

@@ -19,14 +19,15 @@ import org.springframework.stereotype.Service;
 import com.threatdetection.exceptions.DataDoesNotSuitSpecsException;
 import com.threatdetection.model.ComparisonResult;
 import com.threatdetection.model.FileLineInfo;
-import com.threatdetection.model.Transaction;
+import com.threatdetection.model.Threat;
 import com.threatdetection.model.ValidatedData;
 import com.threatdetection.util.FileUtil;
 
 @Service
-public class TransactionService {
+public class ThreatService {
 
-	private static final int FIELD_COUNT = 8;
+	private static final int FIELD_COUNT = 7;
+	
 	private static final int FIELD_PROFILE_NAME_MIN_LENGTH = 0;
 	private static final int FIELD_PROFILE_NAME_MAX_LENGTH = 30;
 	private static final int FIELD_TRANSACTION_NARRATIVE_MIN_LENGTH = 0;
@@ -49,7 +50,7 @@ public class TransactionService {
 
 	private static final String ERROR_MESSAGE = "Error in the field format ";
 
-	private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ThreatService.class);
 
 	/**
 	 *
@@ -62,11 +63,11 @@ public class TransactionService {
 	 * @throws DataDoesNotSuitSpecsException
 	 */
 
-	public Transaction createTransaction (String[] fields, int lineNumber) throws DataDoesNotSuitSpecsException {
+	public Threat createTransaction (String[] fields, int lineNumber) throws DataDoesNotSuitSpecsException {
 
 		try {
 			ValidatedData validatedData = validateFields(fields, lineNumber);
-			return new Transaction(validatedData.getProfileName(),
+			return new Threat(validatedData.getProfileName(),
 					validatedData.getTransactionDate(), validatedData.getTransactionAmount(),
 					validatedData.getTransactionNarrative(), validatedData.getTransactionDescription(),
 					validatedData.getTransactionID(), validatedData.getTransactionType(),
@@ -140,17 +141,20 @@ public class TransactionService {
 	 * @param lineNumber line number of the line in the file
 	 * @throws DataDoesNotSuitSpecsException
 	 */
-	private String validateProfileNameField(String field, int lineNumber)
+	private String validateThreatIdField(String field, int lineNumber)
 			throws DataDoesNotSuitSpecsException {
-		if (field != null && field.trim().length() > FIELD_PROFILE_NAME_MIN_LENGTH
-				&& field.trim().length() <= FIELD_PROFILE_NAME_MAX_LENGTH) {
-			return field.trim();
-		} else {
+		try {
+			int type = Integer.parseInt(typeField);
+			if (type <= FIELD_TRANSACTION_TYPE_MAX_VALUE) {
+				return type;
+			} else {
+				throw new DataDoesNotSuitSpecsException(
+						ERROR_MESSAGE + "Field: Transaction Type --- Line Number: " + lineNumber);
+			}
+		} catch (NumberFormatException e) {
 			throw new DataDoesNotSuitSpecsException(
-					ERROR_MESSAGE + "Field: Profile Name --- Line Number: " + lineNumber);
-
+					ERROR_MESSAGE + "Field: Transaction Type --- Line Number: " + lineNumber);
 		}
-
 	}
 
 	/**
@@ -331,7 +335,7 @@ public class TransactionService {
 	 *                     csv file
 	 * @return true if the datas are candidate
 	 */
-	public boolean isMatchingCandidate(Transaction transaction1, Transaction transaction2) {
+	public boolean isMatchingCandidate(Threat transaction1, Threat transaction2) {
 
 		return ((transaction1.getTransactionID().equals(transaction2.getTransactionID()))
 				|| (transaction1.getWalletReference().equals(transaction2.getWalletReference()))
@@ -380,15 +384,15 @@ public class TransactionService {
 	 * @throws FileUploadException
 	 * @throws FileNotFoundException
 	 */
-	private Map<String, Transaction> formTransactionDataMap(String csvFilePath, List<Integer> errorList,
-			List<Transaction> repeatedDataList) throws FileUploadException {
+	private Map<String, Threat> formTransactionDataMap(String csvFilePath, List<Integer> errorList,
+			List<Threat> repeatedDataList) throws FileUploadException {
 
-		Map<String, Transaction> transactionMap = new HashMap<>();
+		Map<String, Threat> transactionMap = new HashMap<>();
 		List<FileLineInfo> fileLineInfoList = FileUtil.readCsvFileToStringList(csvFilePath);
 		for (int i = 0; i < fileLineInfoList.size(); i++) {
 			FileLineInfo fileLineInfo = fileLineInfoList.get(i);
 			String[] fields = fileLineInfo.getFields();
-			Transaction transaction = null;
+			Threat transaction = null;
 			try {
 				transaction = createTransaction(fields, fileLineInfo.getLineNumber());
 
@@ -424,33 +428,33 @@ public class TransactionService {
 	 * @param nonMatched1List		the data of the first file that are not matched
 	 * @param nonMatched2List		the data of the second file that are not matched
 	 */
-	private void findPerfectMatchs(Map<String, Transaction> transaction1Map, Map<String, Transaction> transaction2Map,
-			List<Transaction> perfectMatchedList, List<Transaction> nonMatched1List,
-			List<Transaction> nonMatched2List) {
+	private void findPerfectMatchs(Map<String, Threat> transaction1Map, Map<String, Threat> transaction2Map,
+			List<Threat> perfectMatchedList, List<Threat> nonMatched1List,
+			List<Threat> nonMatched2List) {
 
 		for (Iterator<String> iterator = transaction1Map.keySet().iterator(); iterator.hasNext();) {
 			String key = iterator.next();
-			Transaction transaction1 = transaction1Map.get(key);
-			Transaction transaction2 = transaction2Map.get(key);
+			Threat transaction1 = transaction1Map.get(key);
+			Threat transaction2 = transaction2Map.get(key);
 
 			if (transaction2 != null) {
 				if (transaction1.equals(transaction2)) {
-					transaction1.setMatching(Transaction.MATCHED);
+					transaction1.setMatching(Threat.MATCHED);
 					perfectMatchedList.add(transaction1);
 					transaction2Map.remove(key);
 				} else {
-					transaction1.setMatching(Transaction.MATCHING_CANDIDATE);
+					transaction1.setMatching(Threat.MATCHING_CANDIDATE);
 					nonMatched1List.add(transaction1);
 				}
 			}else {
-				transaction1.setMatching(Transaction.NOT_MATCHED);
+				transaction1.setMatching(Threat.NOT_MATCHED);
 				nonMatched1List.add(transaction1);
 			}
 		}
 		for (Iterator<String> iterator = transaction2Map.keySet().iterator(); iterator.hasNext();) {
 			String key = iterator.next();
-			Transaction transaction = transaction2Map.get(key);
-			transaction.setMatching(Transaction.NOT_MATCHED);
+			Threat transaction = transaction2Map.get(key);
+			transaction.setMatching(Threat.NOT_MATCHED);
 			nonMatched2List.add(transaction);
 		}
 	}
@@ -466,23 +470,23 @@ public class TransactionService {
 	 * @param candidate1List		the data of the first file that are matching candidate
 	 * @param candidate2List		the data of the second file that are matching candidate
 	 */
-	private void findMatchingCandidates(List<Transaction> nonMatched1List, List<Transaction> nonMatched2List,
-			List<Transaction> candidate1List, List<Transaction> candidate2List) {
+	private void findMatchingCandidates(List<Threat> nonMatched1List, List<Threat> nonMatched2List,
+			List<Threat> candidate1List, List<Threat> candidate2List) {
 
 		int candidateIndex1 = 0;
 		int candidateIndex2 = 0;
-		for (Iterator<Transaction> iterator1 = nonMatched1List.iterator(); iterator1.hasNext();) {
-			Transaction transaction1 = iterator1.next();
-			for (Iterator<Transaction> iterator2 = nonMatched2List.iterator(); iterator2.hasNext();) {
-				Transaction transaction2 = iterator2.next();
+		for (Iterator<Threat> iterator1 = nonMatched1List.iterator(); iterator1.hasNext();) {
+			Threat transaction1 = iterator1.next();
+			for (Iterator<Threat> iterator2 = nonMatched2List.iterator(); iterator2.hasNext();) {
+				Threat transaction2 = iterator2.next();
 				if (isMatchingCandidate(transaction1, transaction2)) {
-					transaction1.setMatching(Transaction.MATCHING_CANDIDATE);
+					transaction1.setMatching(Threat.MATCHING_CANDIDATE);
 					transaction1.setCandidateIndex(candidateIndex2);
 					candidate1List.add(candidateIndex1, transaction1);
 
 					iterator1.remove();
 
-					transaction2.setMatching(Transaction.MATCHING_CANDIDATE);
+					transaction2.setMatching(Threat.MATCHING_CANDIDATE);
 					transaction2.setCandidateIndex(candidateIndex1);
 					candidate2List.add(candidateIndex2, transaction2);
 
