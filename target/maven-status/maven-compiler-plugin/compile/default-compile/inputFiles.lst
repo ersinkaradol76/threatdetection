@@ -1,0 +1,10 @@
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\controller\UploadController.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\model\ValidatedData.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\model\ComparisonResult.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\model\Transaction.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\service\TransactionService.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\StartWebApplication.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\util\FileUtil.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\exceptions\FileUploadException.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\exceptions\DataDoesNotSuitSpecsException.java
+D:\projects\eclipse\reconciliation\src\main\java\com\reconciliation\model\FileLineInfo.java

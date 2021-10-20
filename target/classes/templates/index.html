@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+<title>RocketML Threat Detection Project</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="icon" type="image/x-icon" href="icon/favicon.ico">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+	<section class="my-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-11 mx-auto">
+					<p th:text="${message}" th:if="${message ne null}"
+						class="alert alert-primary"></p>
+					<h2><img alt="Tutuka" src="icon/favicon.ico"> Specify Files to Compare</h2>
+
+					<form method="post" th:action="@{/upload}"
+						enctype="multipart/form-data">
+
+						<div class="row pt-3">
+							<div class="col-md-5">
+								<div class="input-group mb-3">
+									<div class="custom-file">
+										<input type="file" class="custom-file-input" name="file1"
+											id="inputGroupFile01"
+											aria-describedby="inputGroupFileAddon01"> <label
+											class="custom-file-label" for="inputGroupFile01"
+											th:text="${file1Name}" th:if="${file1Name ne null}"></label>
+										<label class="custom-file-label" for="inputGroupFile01"
+											th:unless="${file1Name ne null}">Select first file</label>
+									</div>
+								</div>
+
+							</div>
+							<div class="col-md-5">
+								<div class="input-group mb-3">
+									<div class="custom-file">
+										<input type="file" class="custom-file-input" name="file2"
+											id="inputGroupFile02"
+											aria-describedby="inputGroupFileAddon02"> <label
+											class="custom-file-label" for="inputGroupFile02"
+											th:text="${file2Name}" th:if="${file2Name ne null}"></label>
+										<label class="custom-file-label" for="inputGroupFile02"
+											th:unless="${file2Name ne null}">Select second file</label>
+									</div>
+								</div>
+
+							</div>
+							<div class="col-md-1"><button type="submit" class="btn btn-primary">Compare</button></div>
+						</div>
+
+
+						
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid p-1 bg-info text-white" th:if="${result ne null}">
+			<div class="row">
+				<div class="col-md-11 mx-auto">
+					<h3 th:text="${result}"></h3>
+					<strong><p th:text="${header1}" th:if="${result ne null}"
+						class="alert alert-warning"></p></strong>
+
+					<div th:replace="general.html"></div>
+					
+					<div th:replace="detail.html"></div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+
+	<script type="text/javascript">
+		$('input[type="file"]').change(function(e) {
+			var fileName = e.target.files[0].name;
+			if (fileName != "") {
+				$(e.target).next().html(fileName);
+			}
+		});
+		
+		$('#getDetailReport').click(function(e){
+			
+			$('#detailReport').load("/detail");
+			
+		})
+	</script>
+
+</body>
+</html>
