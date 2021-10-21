@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import com.threatdetection.model.Threat;
 
-public class TransactionServiceTestFixtures {
+public class ThreatServiceTestFixtures {
 
 	public static String[] fieldsValid = { "Card Campaign", "2014-01-11 22:27:44", "-20000",
 			"*MOLEPS ATM25             MOLEPOLOLE    BW", "DEDUCT", "0584011808649511", "1",

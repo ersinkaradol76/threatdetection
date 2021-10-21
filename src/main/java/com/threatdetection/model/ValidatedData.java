@@ -9,9 +9,8 @@ public class ValidatedData {
 	private LocalDateTime creationTime;
 	private int description;
 	private int severity;
-	private boolean status;
+	private int status;
 	private String owner;
-	private int lineNumber;
 	
 	public int getThreatId() {
 		return threatId;
@@ -43,10 +42,11 @@ public class ValidatedData {
 	public void setSeverity(int severity) {
 		this.severity = severity;
 	}
-	public boolean isStatus() {
+
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getOwner() {
@@ -55,12 +55,7 @@ public class ValidatedData {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	public int getLineNumber() {
-		return lineNumber;
-	}
-	public void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+
 
 
 
