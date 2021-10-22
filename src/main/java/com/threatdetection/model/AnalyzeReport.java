@@ -1,8 +1,11 @@
 package com.threatdetection.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class AnalyzeReport implements Comparable<AnalyzeReport> {
+public class AnalyzeReport implements Comparable<AnalyzeReport>, Serializable {
+
+	private static final long serialVersionUID = -1722426212026949667L;
 
 	public static final int INFECTED = 0;
 	public static final int SAFE = 1;

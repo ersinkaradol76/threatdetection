@@ -27,6 +27,8 @@ public class ReportController {
 
 	private static final String REDIRECT_TO_BASE = "redirect:/";
 
+	private static final String REPORT_LIST_ATTRIBUTE = "analyzeReportList";
+
 	ThreatService threatService;
 
 	public ReportController(ThreatService threatService) {
@@ -59,7 +61,7 @@ public class ReportController {
 
 			analyzeReportList = threatService.createAnalyzeReport(path.toString());
 
-			request.getSession().setAttribute("analyzeReportList", analyzeReportList);
+			request.getSession().setAttribute(REPORT_LIST_ATTRIBUTE, analyzeReportList);
 
 
 			attributes.addFlashAttribute(MESSAGE_PARAM_NAME, "Threat analyze is completed!");
@@ -74,7 +76,7 @@ public class ReportController {
 
 		attributes.addFlashAttribute("header1", "General Info");
 
-		attributes.addFlashAttribute("total", analyzeReportList.size());
+		attributes.addFlashAttribute("total", analyzeReportList == null ? 0 : analyzeReportList.size());
 
 		if (path != null) {
 			attributes.addFlashAttribute("fileName", path.getFileName());
@@ -86,9 +88,9 @@ public class ReportController {
 	@GetMapping("/detail")
 	public String unmatched(HttpSession session, Model model) {
 		@SuppressWarnings("unchecked")
-		List<AnalyzeReport> analyzeReportList = (List<AnalyzeReport>) session.getAttribute("analyzeReportList");
+		List<AnalyzeReport> analyzeReportList = (List<AnalyzeReport>) session.getAttribute(REPORT_LIST_ATTRIBUTE);
 
-		model.addAttribute("analyzeReportList", analyzeReportList);
+		model.addAttribute(REPORT_LIST_ATTRIBUTE, analyzeReportList);
 		model.addAttribute("header2", "Analyze Report");
 
 		return "detail :: attributes";

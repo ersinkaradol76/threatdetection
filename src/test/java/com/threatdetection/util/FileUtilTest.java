@@ -12,7 +12,6 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.threatdetection.model.FileLineInfo;
-import com.threatdetection.util.FileUtil;
 
 public class FileUtilTest {
 
