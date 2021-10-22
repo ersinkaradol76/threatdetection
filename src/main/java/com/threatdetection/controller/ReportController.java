@@ -51,7 +51,7 @@ public class ReportController {
 
 
 		Path path = null;
-		List<AnalyzeReport> analyzeReportList;
+		List<AnalyzeReport> analyzeReportList = null;
 
 		try {
 
@@ -74,7 +74,7 @@ public class ReportController {
 
 		attributes.addFlashAttribute("header1", "General Info");
 
-
+		attributes.addFlashAttribute("total", analyzeReportList.size());
 
 		if (path != null) {
 			attributes.addFlashAttribute("fileName", path.getFileName());
@@ -85,16 +85,11 @@ public class ReportController {
 
 	@GetMapping("/detail")
 	public String unmatched(HttpSession session, Model model) {
+		@SuppressWarnings("unchecked")
 		List<AnalyzeReport> analyzeReportList = (List<AnalyzeReport>) session.getAttribute("analyzeReportList");
 
-		//List<Threat> nonmatcheds1 = comparisonResult.getNonMatched1List();
-
-		//model.addAttribute("nonmatcheds1", nonmatcheds1);
-
-
-		model.addAttribute("header2", "Candidate List");
-		model.addAttribute("header3", "Nonmatched List");
-		model.addAttribute("header4", "Errors and Repeated Lines");
+		model.addAttribute("analyzeReportList", analyzeReportList);
+		model.addAttribute("header2", "Analyze Report");
 
 		return "detail :: attributes";
 	}

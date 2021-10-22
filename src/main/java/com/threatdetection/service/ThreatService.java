@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,7 @@ import com.threatdetection.util.FileUtil;
 public class ThreatService {
 
 	private static final int FIELD_COUNT = 7;
-	
+
 	private static final int FIELD_THREAT_ID_MIN_LENGTH = 0;
 	private static final int FIELD_SEVERITY_MIN_VALUE = 0;
 	private static final int FIELD_SEVERITY_MAX_VALUE = 2;
@@ -38,6 +39,7 @@ public class ThreatService {
 
 	private static final String[] FIELD_DESCRIPTION_VALUES = { "Resolved", "Infected IP" };
 	private static final String[] FIELD_STATUS_VALUES = { "False", "True" };
+	private static final String[] FIELD_REPORT_STATUS_VALUES = { "Infected", "Safe" };
 
 	private static final int FIELD_NO_THREAT_ID = 0;
 	private static final int FIELD_NO_IP_ADDRESS = 1;
@@ -46,6 +48,8 @@ public class ThreatService {
 	private static final int FIELD_NO_SEVERITY = 4;
 	private static final int FIELD_NO_STATUS = 5;
 	private static final int FIELD_NO_OWNER = 6;
+
+	public static final int MINUTES_IN_HOUR = 60;
 
 	private static final String ERROR_MESSAGE = "Error in the field format ";
 
@@ -157,7 +161,7 @@ public class ThreatService {
 	 */
 	private String validateIpAddressField(String field, int lineNumber)
 			throws DataDoesNotSuitSpecsException {
-	         
+
 	        Pattern ptn = Pattern.compile("^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
 	        Matcher mtch = ptn.matcher(field);
 	        if (mtch.find()) {
@@ -280,7 +284,7 @@ public class ThreatService {
 	 * @throws DataDoesNotSuitSpecsException
 	 */
 	private String validateOwnerField(String field, int lineNumber) throws DataDoesNotSuitSpecsException {
-		if (field != null && field.trim().length() == FIELD_OWNER_MAX_LENGTH) {
+		if (field != null && field.trim().length() <= FIELD_OWNER_MAX_LENGTH) {
 			return field.trim();
 		} else {
 			throw new DataDoesNotSuitSpecsException(
@@ -316,7 +320,7 @@ public class ThreatService {
 	private Map<String, ThreatResult> formThreatDataMap(String csvFilePath) throws FileUploadException {
 
 		Map<String, ThreatResult> threatResultMap = new HashMap<>();
-		
+
 		List<FileLineInfo> fileLineInfoList = FileUtil.readCsvFileToStringList(csvFilePath);
 		for (int i = 0; i < fileLineInfoList.size(); i++) {
 			FileLineInfo fileLineInfo = fileLineInfoList.get(i);
@@ -352,25 +356,45 @@ public class ThreatService {
 
 	}
 
+	private String returnDifferenceString(long diffInMinutes, long diffInHours) {
+		if (diffInHours == 0) {
+			if (diffInMinutes == 1) {
+				return diffInMinutes + " minute";
+			} else {
+				return diffInMinutes + " minutes";
+			}
+		} else {
+			long remainingMinutes = (diffInMinutes - (MINUTES_IN_HOUR * diffInHours));
+			if (diffInHours == 1) {
+				return diffInHours + " hour " + remainingMinutes + " minutes";
+			}else {
+				return diffInHours + " hours " + remainingMinutes + " minutes";
+			}
+		}
+	}
+
 	public List<AnalyzeReport> createAnalyzeReport(String csvFilePath) throws FileUploadException {
 		Map<String, ThreatResult> threatResultMap = formThreatDataMap(csvFilePath);
 		List<AnalyzeReport> analyzeReportList = new ArrayList<>();
 		for (Iterator<String> iterator = threatResultMap.keySet().iterator(); iterator.hasNext();) {
-			String key = (String) iterator.next();
+			String key = iterator.next();
 			ThreatResult threatResult = threatResultMap.get(key);
 		    long diffInSeconds = ChronoUnit.SECONDS.between(threatResult.getFirtEventTime(), threatResult.getLastEventTime());
 		     long diffInMilli = ChronoUnit.MILLIS.between(threatResult.getFirtEventTime(), threatResult.getLastEventTime());
 		     long diffInMinutes = ChronoUnit.MINUTES.between(threatResult.getFirtEventTime(), threatResult.getLastEventTime());
 		     long diffInHours = ChronoUnit.HOURS.between(threatResult.getFirtEventTime(), threatResult.getLastEventTime());
 			AnalyzeReport analyzeReport = new AnalyzeReport(threatResult.getIpAddress(), threatResult.getThreatsCount(),
-					threatResult.getLastEventTime(), threatResult.getLastStatus(), diffInHours,diffInMinutes);
+					threatResult.getLastEventTime(), FIELD_REPORT_STATUS_VALUES[threatResult.getLastStatus()],
+					returnDifferenceString(diffInMinutes, diffInHours));
+
 			analyzeReportList.add(analyzeReport);
 
-	
-			
-		}		
+
+
+		}
+		Collections.sort(analyzeReportList);
 		return analyzeReportList;
-		
+
 	}
 
 

@@ -28,7 +28,7 @@
 				<div class="col-md-11 mx-auto">
 					<p th:text="${message}" th:if="${message ne null}"
 						class="alert alert-primary"></p>
-					<h2><img alt="Tutuka" src="icon/favicon.ico"> Specify Files to Compare</h2>
+					<h2><img alt="Tutuka" src="icon/favicon.ico"> Select Threat Generator File: </h2>
 
 					<form method="post" th:action="@{/upload}"
 						enctype="multipart/form-data">
@@ -37,32 +37,19 @@
 							<div class="col-md-5">
 								<div class="input-group mb-3">
 									<div class="custom-file">
-										<input type="file" class="custom-file-input" name="file1"
+										<input type="file" class="custom-file-input" name="file"
 											id="inputGroupFile01"
 											aria-describedby="inputGroupFileAddon01"> <label
 											class="custom-file-label" for="inputGroupFile01"
-											th:text="${file1Name}" th:if="${file1Name ne null}"></label>
+											th:text="${fileName}" th:if="${fileName ne null}"></label>
 										<label class="custom-file-label" for="inputGroupFile01"
-											th:unless="${file1Name ne null}">Select first file</label>
+											th:unless="${fileName ne null}">Select file: </label>
 									</div>
 								</div>
 
 							</div>
-							<div class="col-md-5">
-								<div class="input-group mb-3">
-									<div class="custom-file">
-										<input type="file" class="custom-file-input" name="file2"
-											id="inputGroupFile02"
-											aria-describedby="inputGroupFileAddon02"> <label
-											class="custom-file-label" for="inputGroupFile02"
-											th:text="${file2Name}" th:if="${file2Name ne null}"></label>
-										<label class="custom-file-label" for="inputGroupFile02"
-											th:unless="${file2Name ne null}">Select second file</label>
-									</div>
-								</div>
 
-							</div>
-							<div class="col-md-1"><button type="submit" class="btn btn-primary">Compare</button></div>
+							<div class="col-md-1"><button type="submit" class="btn btn-primary">Analyze</button></div>
 						</div>
 
 
@@ -76,10 +63,9 @@
 			<div class="row">
 				<div class="col-md-11 mx-auto">
 					<h3 th:text="${result}"></h3>
-					<strong><p th:text="${header1}" th:if="${result ne null}"
-						class="alert alert-warning"></p></strong>
 
-					<div th:replace="general.html"></div>
+
+					<div th:replace="general.html"></div> 
 					
 					<div th:replace="detail.html"></div>
 				</div>

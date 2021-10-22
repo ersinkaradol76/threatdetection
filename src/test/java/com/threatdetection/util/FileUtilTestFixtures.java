@@ -11,7 +11,7 @@ public class FileUtilTestFixtures {
 	public static final String UPLOAD_DIR = "./uploads/";
 
 	public static String file1 = UPLOAD_DIR + "test1.csv";
-	public static final int FILE1_LINE_COUNT = 306;
+	public static final int FILE1_LINE_COUNT = 3;
 
 	public static String fileName = "sampleFile.txt";
 	public static MockMultipartFile sampleFile = new MockMultipartFile("uploaded-file", fileName, "text/plain",

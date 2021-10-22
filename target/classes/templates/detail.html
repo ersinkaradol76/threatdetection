@@ -1,17 +1,11 @@
 
  <div id="detailReport" th:fragment="attributes"   class="pt-3">
- <div th:unless="${#lists.isEmpty(candidates1)}">
+ <div th:unless="${#lists.isEmpty(analyzeReportList)}">
  					<strong><p th:text="${header2}" class="alert alert-warning"></p></strong>
 					
-					<div th:replace="candidate.html"></div>	
+					<div th:replace="report.html"></div>	
 					<p/>
-					<strong><p th:text="${header3}" class="alert alert-warning"></p></strong>	
-						
-					 <div th:replace="nonmatched.html"></div>					
-					<p/>
-					<strong><p th:text="${header4}" class="alert alert-warning"></p></strong>	
-						
-					 <div th:replace="error.html"></div>
+
 </div>
  </div>
 

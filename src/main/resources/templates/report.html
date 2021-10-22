@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-12">
+		<table border="2" aria-label="List of the threat analyze">
+			
+		
+			<thead>
+				<tr>
+					<th id="ipaddress">IP-Address</th>
+					<th id="threatscount">Threats count</th>
+					<th id="lasteventtime">Last event time</th>
+					<th id="status">Status</th>
+					<th id="difference">Difference(Hours & Minutes)</th>
+				</tr>
+			</thead>
+			<tbody th:each="analyzeReport : ${analyzeReportList}">
+				<tr>
+					<td style="font-size: 16px;"><small><span th:text="${analyzeReport.ipAddress}"></span></small></td>
+					<td style="font-size: 16px;"><small><span th:text="${analyzeReport.threatsCount}"></span></small></td>
+					<td style="font-size: 16px; white-space:nowrap"><small><span th:text="${#temporals.format(analyzeReport.lastEventTime, 'dd/MM/yyyy HH:mm:ss')}"></span></small></td>
+					<td style="font-size: 16px; white-space:nowrap"><small><span th:text="${analyzeReport.status}"></span></small></td>
+					<td style="font-size: 16px"><small><span th:text="${analyzeReport.difference}"></span></small></td>
+				</tr>
+			</tbody>
+
+		</table>
+	</div>
+
+</div>

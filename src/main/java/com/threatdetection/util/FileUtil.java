@@ -50,13 +50,11 @@ public class FileUtil {
 		Path pathToFile = Paths.get(csvFilePath);
 		try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
 			String line = br.readLine();
-			int counter = 0;
+			int counter = 1;
 			while (line != null) {
-				if (counter != 0) { // first line of csv file is header so ignoring that
-					String[] fields = line.split(",");
-					FileLineInfo fileLineInfo = new FileLineInfo(fields, counter);
-					fileLineInfoList.add(fileLineInfo);
-				}
+				String[] fields = line.split(",");
+				FileLineInfo fileLineInfo = new FileLineInfo(fields, counter);
+				fileLineInfoList.add(fileLineInfo);
 				counter++;
 				line = br.readLine();
 

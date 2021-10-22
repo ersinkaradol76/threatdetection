@@ -2,27 +2,28 @@ package com.threatdetection.model;
 
 import java.time.LocalDateTime;
 
-public class AnalyzeReport {
+public class AnalyzeReport implements Comparable<AnalyzeReport> {
 
 	public static final int INFECTED = 0;
 	public static final int SAFE = 1;
 
+
+
 	private String ipAddress;
 	private int threatsCount;
 	private LocalDateTime lastEventTime;
-	private int status;
-	private long differenceHours;
-	private long differenceMinutes;
+	private String status;
+	private String difference;
 
 	public AnalyzeReport(String ipAddress, int threatsCount, LocalDateTime lastEventTime,
-			int status, long differenceHours, long differenceMinutes) {
+			String status, String difference) {
 		super();
 		this.setIpAddress(ipAddress);
 		this.setThreatsCount(threatsCount);
 		this.setLastEventTime(lastEventTime);
 		this.setStatus(status);
-		this.setDifferenceHours(differenceHours);
-		this.setDifferenceMinutes(differenceMinutes);
+		this.setDifference(difference);
+
 	}
 
 	public String getIpAddress() {
@@ -49,29 +50,33 @@ public class AnalyzeReport {
 		this.lastEventTime = lastEventTime;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
-	public long getDifferenceHours() {
-		return differenceHours;
+	public String getDifference() {
+		return difference;
 	}
 
-	public void setDifferenceHours(long differenceHours) {
-		this.differenceHours = differenceHours;
+	public void setDifference(String difference) {
+		this.difference = difference;
 	}
 
-	public long getDifferenceMinutes() {
-		return differenceMinutes;
+	@Override
+	public int compareTo(AnalyzeReport analyzeReport) {
+		if (this.getLastEventTime().isEqual(analyzeReport.getLastEventTime())) {
+			return 0;
+		} else if (this.getLastEventTime().isBefore(analyzeReport.getLastEventTime())) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 
-	public void setDifferenceMinutes(long differenceMinutes) {
-		this.differenceMinutes = differenceMinutes;
-	}
 
 
 

@@ -24,7 +24,7 @@ public class ReportControllerTest {
 	@Test
 	public void shouldReturnIndexPage() throws Exception {
 		this.mockMvc.perform(get("/")).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Specify Files to Compare")));
+				.andExpect(content().string(containsString("Select Threat Generator File")));
 	}
 
 }
