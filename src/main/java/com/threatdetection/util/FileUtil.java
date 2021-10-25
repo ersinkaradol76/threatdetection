@@ -22,7 +22,8 @@ import com.threatdetection.model.FileLineInfo;
 public class FileUtil {
 
 
-	private static final String UPLOAD_DIR = "./uploads/";
+	// private static final String UPLOAD_DIR = "./uploads/";
+	private static final String UPLOAD_DIR = "./";
 
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
